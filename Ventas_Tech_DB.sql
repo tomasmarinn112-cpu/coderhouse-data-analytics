@@ -1,14 +1,22 @@
-CREATE DATABASE Ventas_Tech_DB;
+IF NOT EXISTS USE Ventas_Tech_DB;
+-- =============================================================================
+-- SECCIÓN 1: DROP TABLES
+-- Eliminación de tablas en orden inverso a las dependencias
+-- =============================================================================
 DROP TABLE IF EXISTS ventas;
 DROP TABLE IF EXISTS productos;
 DROP TABLE IF EXISTS clientes;
 DROP TABLE IF EXISTS categorias;
 
+-- =============================================================================
+-- SECCIÓN 2: CREATE TABLES (DDL)
+-- Creación de tablas maestras y tablas de hechos con PKs y FKs
+-- =============================================================================
 
 CREATE TABLE Categorias (
 id_categoria INT PRIMARY KEY,
-nombre_categoría VARCHAR(50) NOT NULL,
-descripción VARCHAR(200)
+nombre_categoria VARCHAR(50) NOT NULL,
+descripcion VARCHAR(200)
 );
 
 CREATE TABLE Clientes (
@@ -20,25 +28,33 @@ fecha_registro DATE NOT NULL
 );
 
 CREATE TABLE Productos (
-id_producto INT PRIMARY KEY,
-nombre_producto VARCHAR (100) NOT NULL,
-id_categoria INT 
-FOREIGN KEY REFERENCES Categorias(id_categoria),
-precio DECIMAL (10,2) NOT NULL,
-stock INT DEFAULT 0,
-activo BIT DEFAULT 1
+    id_producto INT PRIMARY KEY,
+    nombre_producto VARCHAR(100) NOT NULL,
+    id_categoria INT NOT NULL,
+    precio DECIMAL(10,2) NOT NULL,
+    stock INT DEFAULT 0,
+    activo BIT DEFAULT 1,
+    CONSTRAINT FK_Productos_Categorias 
+        FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria)
+);
+CREATE TABLE Ventas (
+    id_venta INT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    id_producto INT NOT NULL,
+    id_territorio INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    fecha_venta DATE NOT NULL,
+    CONSTRAINT FK_Ventas_Clientes 
+        FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente),
+    CONSTRAINT FK_Ventas_Productos 
+        FOREIGN KEY (id_producto) REFERENCES Productos(id_producto)
 );
 
-CREATE TABLE Ventas (
-id_venta INT PRIMARY KEY,
-id_cliente INT 
-FOREIGN KEY REFERENCES Clientes(id_cliente),
-id_producto INT 
-FOREIGN KEY REFERENCES Productos(id_producto),
-cantidad INT NOT NULL,
-precio_unitario DECIMAL (10,2) NOT NULL,
-fecha_venta DATE NOT NULL
-);
+-- =============================================================================
+-- SECCIÓN 3: INSERT INTO (DML)
+-- Carga de datos iniciales en orden de dependencias
+-- =============================================================================
 
 INSERT INTO categorias (id_categoria, nombre_categoría, descripción) VALUES
   (1, 'Computación',    'Laptops, PCs y monitores'),
@@ -73,6 +89,11 @@ INSERT INTO categorias (id_categoria, nombre_categoría, descripción) VALUES
   ( 8, 3, 2, 8,   28.00, '2024-03-13'),
   ( 9, 4, 4, 1,  120.00, '2024-03-14'),
   (10, 5, 3, 2,  450.00, '2024-03-15');
+
+-- =============================================================================
+-- SECCIÓN 4: VALIDACIÓN
+-- Consultas de verificación para comprobar la correcta carga del modelo
+-- =============================================================================
 
   SELECT * FROM categorias;   -- esperado: 4 filas
 SELECT * FROM clientes;     -- esperado: 5 filas
