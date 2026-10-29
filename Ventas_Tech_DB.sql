@@ -1,4 +1,5 @@
-IF NOT EXISTS USE Ventas_Tech_DB;
+USE Ventas_Tech_DB
+GO
 -- =============================================================================
 -- SECCIÓN 1: DROP TABLES
 -- Eliminación de tablas en orden inverso a las dependencias
@@ -41,7 +42,6 @@ CREATE TABLE Ventas (
     id_venta INT PRIMARY KEY,
     id_cliente INT NOT NULL,
     id_producto INT NOT NULL,
-    id_territorio INT NOT NULL,
     cantidad INT NOT NULL,
     precio_unitario DECIMAL(10,2) NOT NULL,
     fecha_venta DATE NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE Ventas (
 -- Carga de datos iniciales en orden de dependencias
 -- =============================================================================
 
-INSERT INTO categorias (id_categoria, nombre_categoría, descripción) VALUES
+INSERT INTO categorias (id_categoria, nombre_categoria, descripcion) VALUES
   (1, 'Computación',    'Laptops, PCs y monitores'),
   (2, 'Accesorios',     'Periféricos y complementos'),
   (3, 'Audio',          'Auriculares y parlantes'),
