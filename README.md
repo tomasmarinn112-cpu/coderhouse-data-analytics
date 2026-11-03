@@ -50,9 +50,9 @@ GO
 
 Abrí y ejecutá los archivos de la carpeta `sql/` en este orden:
 
-1. `01_Ventas_Tech_DB.sql`: crea las tablas e ingresa sus datos.
-2. `02_m4_consultas_negocio.sql`: consultas básicas y cálculos en SQL para poder analizar estos datos.
-3. `03_m5_consultas_joins.sql`: consultas para cruzar tablas de hechos y tablas descriptivas.
+1. `Ventas_Tech_DB.sql`: crea las tablas e ingresa sus datos.
+2. `m4_consultas_negocio.sql`: consultas básicas y cálculos en SQL para poder analizar estos datos.
+3. `m5_consultas_joins.sql`: consultas para cruzar tablas de hechos y tablas descriptivas.
 
 ### 3. Verificar la carga
 
